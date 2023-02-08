@@ -31,3 +31,30 @@ describe("ship", () => {
 
   });
 });
+
+describe("ai", () => {
+  test("ai has name and starts with turn false", () => {
+    const ai = new AI("ai");
+    expect(ai.getName()).toMatch("ai");
+    expect(ai.checkTurn()).toBe(false);
+  });
+  test("ai attacks when it has turn", () => {
+    const board = new GameBoard();
+    const board2 = new GameBoard();
+    const player1 = new Player("Godknows");
+    const player2 = new AI("Pesanai", player1, board);
+    player1.attack(3, 4, player2, board2);
+    player2.generateRandomAttack();
+    expect(board.getMissedAttacksArray().length).toBe(1);
+  });
+  test("ai records all attacks and only attack when it has turn", () => {
+    const board = new GameBoard();
+    const board2 = new GameBoard();
+    const player1 = new Player("Godknows");
+    const player2 = new AI("Pesanai", player1, board);
+    player1.attack(3, 4, player2, board2);
+    player2.generateRandomAttack();
+    player2.generateRandomAttack();
+    expect(player2.getAttackArray().length).toBe(1);
+  });
+});
